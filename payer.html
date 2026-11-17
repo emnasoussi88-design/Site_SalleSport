@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement — ERS</title>
+  <link rel="stylesheet" href="style2.css">
+  <script src="controle.js" defer></script>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      <h2>💳 VÉRIFIER MON PAIEMENT</h2>
+      <p>Consultez le statut de votre abonnement ce mois-ci</p>
+    </div>
+    <div class="card-body">
+      <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80"
+           alt="Sport" class="img-sport">
+
+      <form action="salle.php" method="post" onsubmit="return verifPaiement()">
+        <input type="hidden" name="action" value="paiement">
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" id="x2" placeholder="votre@email.com">
+        </div>
+
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" name="mdp" id="x222" placeholder="••••••••">
+        </div>
+
+        <input type="hidden" name="mois" id="xz">
+
+        <div class="mt-20">
+          <button type="submit" class="btn btn-primary">🔍 VÉRIFIER MON STATUT</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

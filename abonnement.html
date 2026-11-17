@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abonnement — ERS</title>
+  <link rel="stylesheet" href="style2.css">
+  <script src="controle.js" defer></script>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      <h2>💪 ABONNEMENT</h2>
+      <p>Choisissez votre activité et votre formule</p>
+    </div>
+    <div class="card-body">
+      <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80"
+           alt="Musculation" class="img-sport">
+
+      <form id="formAbo" action="salle.php" method="post" onsubmit="return soumettreAbonnement()">
+        <input type="hidden" name="action" value="abonnement">
+
+        <!-- Activité -->
+        <div class="form-group">
+          <label>Activité sportive</label>
+          <select name="activite" id="x4">
+            <option value="Gymnastique">🤸 Gymnastique — 50 DT/mois</option>
+            <option value="karaté">🥋 Karaté — 60 DT/mois</option>
+            <option value="judo">🥋 Judo — 60 DT/mois</option>
+            <option value="Natation">🏊 Natation — 70 DT/mois</option>
+          </select>
+        </div>
+
+        <!-- Âge -->
+        <div class="form-group">
+          <label>Tranche d'âge</label>
+          <div class="radio-group">
+            <label id="lAge1">
+              <input type="radio" name="age" id="rAge1" value="enfant"
+                     onchange="styleRadio()"> 👦 Enfant (−20%)
+            </label>
+            <label id="lAge2">
+              <input type="radio" name="age" id="rAge2" value="adulte"
+                     onchange="styleRadio()"> 🧑 Adulte
+            </label>
+          </div>
+        </div>
+
+        <!-- Durée -->
+        <div class="form-group">
+          <label>Durée d'abonnement</label>
+          <div class="radio-group">
+            <label id="lDuree1">
+              <input type="radio" name="duree" id="rDuree1" value="1"
+                     onchange="styleRadio()"> 📅 1 mois
+            </label>
+            <label id="lDuree2">
+              <input type="radio" name="duree" id="rDuree2" value="3"
+                     onchange="styleRadio()"> 📅 3 mois
+            </label>
+          </div>
+        </div>
+
+        <!-- Bouton Calculer -->
+        <button type="button" class="btn btn-outline" onclick="calculAbonnement()" style="width:100%;margin-bottom:12px;">
+          🧮 CALCULER LE PRIX
+        </button>
+
+        <!-- Résultat -->
+        <div class="result-box mb-16" id="resultBox" style="display:none">
+          <div>
+            <div class="label">Net à payer</div>
+            <div class="value" id="prixAffiche">—</div>
+          </div>
+          <div style="font-size:28px;">💰</div>
+        </div>
+
+        <input type="hidden" name="net_a_payer" id="netAPayer">
+
+        <!-- Bouton Payer -->
+        <button type="submit" class="btn btn-gold" id="btnPayer" style="display:none">
+          💳 PAYER MAINTENANT
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function styleRadio() {
+      ['lAge1','lAge2','lDuree1','lDuree2'].forEach(id => {
+        var el = document.getElementById(id);
+        var radio = el ? el.querySelector('input[type=radio]') : null;
+        if (el && radio) el.classList.toggle('selected', radio.checked);
+      });
+    }
+
+    // Override calculAbonnement to also show pay button
+    var _origCalc = window.calculAbonnement;
+    document.addEventListener('DOMContentLoaded', function() {
+      var _orig = calculAbonnement;
+      window.calculAbonnement = function() {
+        _orig();
+        var net = document.getElementById('netAPayer').value;
+        if (net && net.trim()) {
+          var val = net.replace(' DT','');
+          document.getElementById('prixAffiche').textContent = val + ' DT';
+          document.getElementById('resultBox').style.display = 'flex';
+          document.getElementById('btnPayer').style.display = 'flex';
+        }
+      };
+    });
+  </script>
+</body>
+</html>

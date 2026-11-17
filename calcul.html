@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calcul IMC — ERS</title>
+  <link rel="stylesheet" href="style2.css">
+  <script src="controle.js" defer></script>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      <h2>📊 CALCUL IMC</h2>
+      <p>Évaluez votre indice de masse corporelle</p>
+    </div>
+    <div class="card-body">
+      <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80"
+           alt="Fitness" class="img-sport">
+
+      <form action="salle.php" method="post" onsubmit="return soumettreIMC()">
+        <input type="hidden" name="action" value="imc">
+
+        <!-- Sexe -->
+        <div class="form-group">
+          <label>Sexe</label>
+          <div class="radio-group">
+            <label id="lHomme">
+              <input type="radio" name="sexe" id="rHomme" value="homme"
+                     onchange="styleIMCRadio()"> 👨 Homme
+            </label>
+            <label id="lFemme">
+              <input type="radio" name="sexe" id="rFemme" value="femme"
+                     onchange="styleIMCRadio()"> 👩 Femme
+            </label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label>Taille (cm)</label>
+            <input type="number" name="taille" id="x6" placeholder="Ex : 170">
+          </div>
+          <div class="form-group">
+            <label>Poids (kg)</label>
+            <input type="number" name="poids" id="x7" placeholder="Ex : 65">
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-outline" onclick="calculIMC()"
+                style="width:100%;margin-bottom:16px;">
+          🧮 CALCULER MON IMC
+        </button>
+
+        <!-- Résultats -->
+        <div id="resultIMC" style="display:none">
+          <div class="imc-bars">
+
+            <div class="form-group" style="margin-bottom:10px">
+              <label>Résultat IMC</label>
+              <input type="text" name="resultat_imc" id="x10" readonly>
+            </div>
+
+            <div class="imc-bar-row">
+              <div class="imc-bar-label">Masse graisseuse</div>
+              <div class="imc-bar-track">
+                <div class="imc-bar-fill" id="barMG" style="background:#E67E22;width:0%"></div>
+              </div>
+              <input type="text" name="masse_graisse" id="x8" readonly
+                     style="width:80px;height:30px;font-size:12px;padding:0 8px;border:1.5px solid #D1D9E6;border-radius:6px;background:#EFF4FF;color:#1E3A5F;font-weight:600;outline:none;">
+            </div>
+
+            <div class="imc-bar-row">
+              <div class="imc-bar-label">Sans graisse</div>
+              <div class="imc-bar-track">
+                <div class="imc-bar-fill" id="barMSG" style="background:#27AE60;width:0%"></div>
+              </div>
+              <input type="text" name="masse_sans_graisse" id="x9" readonly
+                     style="width:80px;height:30px;font-size:12px;padding:0 8px;border:1.5px solid #D1D9E6;border-radius:6px;background:#EFF4FF;color:#1E3A5F;font-weight:600;outline:none;">
+            </div>
+
+            <div class="imc-bar-row">
+              <div class="imc-bar-label">Masse musculaire</div>
+              <div class="imc-bar-track">
+                <div class="imc-bar-fill" id="barMM" style="background:#2980B9;width:0%"></div>
+              </div>
+              <input type="text" name="masse_musculaire" id="x11" readonly
+                     style="width:80px;height:30px;font-size:12px;padding:0 8px;border:1.5px solid #D1D9E6;border-radius:6px;background:#EFF4FF;color:#1E3A5F;font-weight:600;outline:none;">
+            </div>
+
+            <div class="imc-bar-row">
+              <div class="imc-bar-label">Masse eau</div>
+              <div class="imc-bar-track">
+                <div class="imc-bar-fill" id="barME" style="background:#1ABC9C;width:0%"></div>
+              </div>
+              <input type="text" name="masse_eau" id="x12" readonly
+                     style="width:80px;height:30px;font-size:12px;padding:0 8px;border:1.5px solid #D1D9E6;border-radius:6px;background:#EFF4FF;color:#1E3A5F;font-weight:600;outline:none;">
+            </div>
+
+          </div>
+
+          <div class="mt-20">
+            <button type="submit" class="btn btn-primary">💾 ENREGISTRER</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function styleIMCRadio() {
+      ['lHomme','lFemme'].forEach(id => {
+        var el = document.getElementById(id);
+        var r = el ? el.querySelector('input[type=radio]') : null;
+        if (el && r) el.classList.toggle('selected', r.checked);
+      });
+    }
+
+    // Wrap calculIMC to show results & animate bars
+    document.addEventListener('DOMContentLoaded', function() {
+      var _orig = window.calculIMC;
+      window.calculIMC = function() {
+        var res = _orig();
+        var imc = document.getElementById('x10').value;
+        if (imc && imc.trim()) {
+          document.getElementById('resultIMC').style.display = 'block';
+          // Animate bars based on % of poids
+          var poids = parseFloat(document.getElementById('x7').value) || 1;
+          var mg  = parseFloat(document.getElementById('x8').value)  || 0;
+          var msg = parseFloat(document.getElementById('x9').value)  || 0;
+          var mm  = parseFloat(document.getElementById('x11').value) || 0;
+          var me  = parseFloat(document.getElementById('x12').value) || 0;
+          setTimeout(() => {
+            document.getElementById('barMG').style.width  = Math.min((mg/poids)*100,100)+'%';
+            document.getElementById('barMSG').style.width = Math.min((msg/poids)*100,100)+'%';
+            document.getElementById('barMM').style.width  = Math.min((mm/poids)*100,100)+'%';
+            document.getElementById('barME').style.width  = Math.min((me/poids)*100,100)+'%';
+          }, 100);
+        }
+        return res;
+      };
+    });
+  </script>
+</body>
+</html>

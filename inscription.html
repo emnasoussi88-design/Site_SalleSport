@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription — ERS</title>
+  <link rel="stylesheet" href="style2.css">
+  <script src="controle.js" defer></script>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      <h2>CRÉER UN COMPTE</h2>
+      <p>Rejoignez la communauté ERS dès aujourd'hui</p>
+    </div>
+    <div class="card-body">
+      <form action="salle.php" method="post" onsubmit="return verifInscription()">
+        <input type="hidden" name="action" value="inscription">
+
+        <div class="row">
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" name="prenom" id="iPrenom" placeholder="Votre prénom">
+          </div>
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" name="nom" id="iNom" placeholder="Votre nom">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Pseudo (5 à 10 caractères)</label>
+          <input type="text" name="pseudo" id="x1" placeholder="pseudo unique">
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" id="x2" placeholder="votre@email.com">
+        </div>
+
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" name="mdp" id="x22" placeholder="Majuscule + minuscule + chiffre">
+        </div>
+
+        <div class="form-group">
+          <label>Confirmer le mot de passe</label>
+          <input type="password" name="mdp_confirm" id="x222" placeholder="Répétez le mot de passe">
+        </div>
+
+        <div class="mt-20">
+          <button type="submit" class="btn btn-gold">S'INSCRIRE</button>
+        </div>
+
+        <p class="text-center mt-12 text-muted">
+          Déjà membre ? <a class="link" href="connexion.html">Se connecter</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

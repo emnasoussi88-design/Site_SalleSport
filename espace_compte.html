@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Espace — ERS</title>
+  <link rel="stylesheet" href="style2.css">
+  <script src="controle.js" defer></script>
+</head>
+<body style="background:linear-gradient(135deg,#EEF2F7,#E3EAF4);padding-bottom:30px;">
+
+  <!-- ── HEADER AVEC DÉCONNEXION ── -->
+  <div class="page-header">
+    <div class="brand">ERS — MON ESPACE</div>
+    <div class="user-info">
+      <span class="user-name" id="userGreet">👤 Membre ERS</span>
+      <a href="connexion.html" class="btn-logout" onclick="deconnexion()">
+        ⏻ Déconnexion
+      </a>
+    </div>
+  </div>
+
+  <!-- ── NAVIGATION INTERNE ── -->
+  <div style="display:flex;gap:8px;padding:14px 28px;background:#fff;border-bottom:1px solid #E0E8F4;">
+    <button class="btn btn-sm btn-primary" onclick="showSection('accueil')">🏠 Accueil</button>
+    <button class="btn btn-sm btn-outline" onclick="showSection('imc')">📊 IMC</button>
+    <button class="btn btn-sm btn-outline" onclick="showSection('programme')">📋 Programme</button>
+    <button class="btn btn-sm btn-outline" onclick="showSection('coachs')">🏋️ Coachs</button>
+    <button class="btn btn-sm btn-outline" onclick="showSection('planning')">🗓️ Planning</button>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SECTION : ACCUEIL
+  ════════════════════════════════════ -->
+  <div class="dashboard" id="sAccueil">
+    <div class="dash-welcome">
+      <h3>BON RETOUR, CHAMPION ! 🏆</h3>
+      <p>Bienvenue dans votre espace personnel ERS. Gérez votre abonnement et suivez vos progrès.</p>
+    </div>
+
+    <div class="dash-grid">
+      <a class="dash-tile" onclick="showSection('imc')">
+        <div class="icon">📊</div>
+        <div class="title">Calcul IMC</div>
+        <div class="sub">Suivez votre composition corporelle</div>
+      </a>
+      <a class="dash-tile" onclick="showSection('programme')">
+        <div class="icon">📋</div>
+        <div class="title">Programme</div>
+        <div class="sub">Votre plan d'entraînement</div>
+      </a>
+      <a class="dash-tile" onclick="showSection('coachs')">
+        <div class="icon">🏋️</div>
+        <div class="title">Nos Coachs</div>
+        <div class="sub">Experts disponibles pour vous</div>
+      </a>
+      <a class="dash-tile" onclick="showSection('planning')">
+        <div class="icon">🗓️</div>
+        <div class="title">Planning Salle</div>
+        <div class="sub">Horaires et créneaux disponibles</div>
+      </a>
+      <a class="dash-tile" href="abonnement.html">
+        <div class="icon">💪</div>
+        <div class="title">Abonnement</div>
+        <div class="sub">Gérer votre formule</div>
+      </a>
+      <a class="dash-tile" href="payer.html">
+        <div class="icon">💳</div>
+        <div class="title">Paiement</div>
+        <div class="sub">Voir le statut du mois</div>
+      </a>
+    </div>
+
+    <!-- Stats rapides -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px;">
+      <div style="background:#fff;border-radius:12px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(10,15,30,.07);">
+        <div style="font-size:28px;font-family:'Bebas Neue',sans-serif;color:#0A0F1E;">4</div>
+        <div style="font-size:11.5px;color:#8A95A3;text-transform:uppercase;letter-spacing:.5px;">Activités</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(10,15,30,.07);">
+        <div style="font-size:28px;font-family:'Bebas Neue',sans-serif;color:#C9A84C;">6</div>
+        <div style="font-size:11.5px;color:#8A95A3;text-transform:uppercase;letter-spacing:.5px;">Coachs</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(10,15,30,.07);">
+        <div style="font-size:28px;font-family:'Bebas Neue',sans-serif;color:#0E7F5E;">7j/7</div>
+        <div style="font-size:11.5px;color:#8A95A3;text-transform:uppercase;letter-spacing:.5px;">Ouverture</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SECTION : CALCUL IMC
+  ════════════════════════════════════ -->
+  <div class="dashboard" id="sImc" style="display:none">
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#0A0F1E;margin-bottom:18px;">
+      📊 CALCUL DE L'IMC
+    </h3>
+    <div class="card" style="margin:0;max-width:100%">
+      <div class="card-body">
+        <div class="form-group">
+          <label>Sexe</label>
+          <div class="radio-group">
+            <label id="lH2"><input type="radio" name="sexe2" id="rH2" value="homme" onchange="styleR2()"> 👨 Homme</label>
+            <label id="lF2"><input type="radio" name="sexe2" id="rF2" value="femme"  onchange="styleR2()"> 👩 Femme</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label>Taille (cm)</label>
+            <input type="number" id="d_taille" placeholder="170">
+          </div>
+          <div class="form-group">
+            <label>Poids (kg)</label>
+            <input type="number" id="d_poids" placeholder="65">
+          </div>
+        </div>
+        <button class="btn btn-gold" onclick="calcIMCDash()" style="width:100%">🧮 CALCULER</button>
+
+        <div id="imcResult" style="display:none;margin-top:20px">
+          <div class="result-box">
+            <div><div class="label">Résultat IMC</div><div class="value" id="imcVal">—</div></div>
+            <div id="imcEmoji" style="font-size:28px">⚖️</div>
+          </div>
+          <div class="imc-bars" style="margin-top:16px">
+            <div class="imc-bar-row">
+              <div class="imc-bar-label">Masse graisseuse</div>
+              <div class="imc-bar-track"><div class="imc-bar-fill" id="b_mg" style="background:#E67E22;width:0%"></div></div>
+              <div class="imc-bar-value" id="v_mg">—</div>
+            </div>
+            <div class="imc-bar-row">
+              <div class="imc-bar-label">Masse musculaire</div>
+              <div class="imc-bar-track"><div class="imc-bar-fill" id="b_mm" style="background:#2980B9;width:0%"></div></div>
+              <div class="imc-bar-value" id="v_mm">—</div>
+            </div>
+            <div class="imc-bar-row">
+              <div class="imc-bar-label">Masse eau</div>
+              <div class="imc-bar-track"><div class="imc-bar-fill" id="b_me" style="background:#1ABC9C;width:0%"></div></div>
+              <div class="imc-bar-value" id="v_me">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SECTION : PROGRAMME
+  ════════════════════════════════════ -->
+  <div class="dashboard" id="sProgramme" style="display:none">
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#0A0F1E;margin-bottom:18px;">
+      📋 PROGRAMMES D'ENTRAÎNEMENT
+    </h3>
+
+    <div class="prog-card">
+      <div class="badge">Débutant</div>
+      <h4>🏃 Cardio Foundation</h4>
+      <p>3 séances/semaine · 45 min · Tapis + vélo elliptique. Idéal pour démarrer et améliorer votre endurance cardiovasculaire progressivement.</p>
+    </div>
+
+    <div class="prog-card">
+      <div class="badge">Intermédiaire</div>
+      <h4>💪 Force & Gainage</h4>
+      <p>4 séances/semaine · 60 min · Musculation full-body. Développez votre force, améliorez votre posture et tonifiez votre silhouette.</p>
+    </div>
+
+    <div class="prog-card">
+      <div class="badge">Avancé</div>
+      <h4>🔥 High Performance</h4>
+      <p>5 séances/semaine · 75 min · Split entraînement. Programme haute intensité pour athlètes confirmés cherchant à repousser leurs limites.</p>
+    </div>
+
+    <div class="prog-card">
+      <div class="badge">Bien-être</div>
+      <h4>🧘 Yoga & Mobilité</h4>
+      <p>2 séances/semaine · 50 min · Salle de détente. Programme de récupération active, flexibilité et gestion du stress.</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SECTION : COACHS
+  ════════════════════════════════════ -->
+  <div class="dashboard" id="sCoachs" style="display:none">
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#0A0F1E;margin-bottom:18px;">
+      🏋️ NOS COACHS DISPONIBLES
+    </h3>
+
+    <div class="coach-card">
+      <div class="coach-avatar">🏋️</div>
+      <div class="coach-info">
+        <h4>Karim Mansour</h4>
+        <p>Coach principal · 8 ans d'expérience</p>
+        <div class="spec">💪 Musculation · Force athlétique · Nutrition</div>
+      </div>
+    </div>
+
+    <div class="coach-card">
+      <div class="coach-avatar">🥋</div>
+      <div class="coach-info">
+        <h4>Sonia Trabelsi</h4>
+        <p>Coach arts martiaux · Ceinture noire</p>
+        <div class="spec">🥋 Karaté · Judo · Self-défense</div>
+      </div>
+    </div>
+
+    <div class="coach-card">
+      <div class="coach-avatar">🏊</div>
+      <div class="coach-info">
+        <h4>Bilel Hamdi</h4>
+        <p>Maître-nageur diplômé · 5 ans</p>
+        <div class="spec">🏊 Natation · Aquafitness · Cardio aquatique</div>
+      </div>
+    </div>
+
+    <div class="coach-card">
+      <div class="coach-avatar">🤸</div>
+      <div class="coach-info">
+        <h4>Mariem Bouazizi</h4>
+        <p>Coach bien-être · Certifiée yoga</p>
+        <div class="spec">🧘 Yoga · Pilates · Stretching</div>
+      </div>
+    </div>
+
+    <div class="coach-card">
+      <div class="coach-avatar">⚡</div>
+      <div class="coach-info">
+        <h4>Nour Chaabane</h4>
+        <p>Coach crossfit · Ex-athlète nationale</p>
+        <div class="spec">⚡ CrossFit · HIIT · Préparation physique</div>
+      </div>
+    </div>
+
+    <div class="coach-card">
+      <div class="coach-avatar">🤸</div>
+      <div class="coach-info">
+        <h4>Ameur Dridi</h4>
+        <p>Coach gymnique · Formateur FITNEC</p>
+        <div class="spec">🤸 Gymnastique · Acrobatie · Posture</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       SECTION : PLANNING
+  ════════════════════════════════════ -->
+  <div class="dashboard" id="sPlanning" style="display:none">
+    <h3 style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#0A0F1E;margin-bottom:18px;">
+      🗓️ PLANNING DE LA SALLE
+    </h3>
+
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-family:'Outfit',sans-serif;font-size:13px;">
+        <thead>
+          <tr style="background:#0A0F1E;color:#C9A84C;">
+            <th style="padding:12px 16px;text-align:left;border-radius:8px 0 0 0">Horaire</th>
+            <th style="padding:12px 16px;text-align:center">Lun</th>
+            <th style="padding:12px 16px;text-align:center">Mar</th>
+            <th style="padding:12px 16px;text-align:center">Mer</th>
+            <th style="padding:12px 16px;text-align:center">Jeu</th>
+            <th style="padding:12px 16px;text-align:center">Ven</th>
+            <th style="padding:12px 16px;text-align:center;border-radius:0 8px 0 0">Sam</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff">
+            <td style="padding:10px 16px;font-weight:600;color:#0A0F1E">07h–09h</td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Musculation</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Natation</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Yoga</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Musculation</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Cardio</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#FEF9EE;color:#C9A84C;padding:4px 8px;border-radius:5px;font-size:11px">Ouvert</span></td>
+          </tr>
+          <tr style="background:#F8FAFF">
+            <td style="padding:10px 16px;font-weight:600;color:#0A0F1E">09h–12h</td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">Karaté</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">Judo</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">Gym</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">Natation</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">Pilates</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#FEF9EE;color:#C9A84C;padding:4px 8px;border-radius:5px;font-size:11px">Ouvert</span></td>
+          </tr>
+          <tr style="background:#fff">
+            <td style="padding:10px 16px;font-weight:600;color:#0A0F1E">14h–17h</td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Cardio</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Musculation</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Natation</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Karaté</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#EFF4FF;color:#1E3A5F;padding:4px 8px;border-radius:5px;font-size:11px">Gym</span></td>
+            <td style="padding:10px;text-align:center;color:#8A95A3;font-size:12px">—</td>
+          </tr>
+          <tr style="background:#F8FAFF">
+            <td style="padding:10px 16px;font-weight:600;color:#0A0F1E">17h–20h</td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">CrossFit</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">Yoga</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">CrossFit</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">Pilates</span></td>
+            <td style="padding:10px;text-align:center"><span style="background:#E8F8F2;color:#0E7F5E;padding:4px 8px;border-radius:5px;font-size:11px">Judo</span></td>
+            <td style="padding:10px;text-align:center;color:#8A95A3;font-size:12px">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-info mt-20">
+      ℹ️ Réservation conseillée pour les créneaux du matin. Contactez-nous au <strong>+216 71 000 000</strong>
+    </div>
+  </div>
+
+  <script>
+    var sections = ['sAccueil','sImc','sProgramme','sCoachs','sPlanning'];
+
+    function showSection(name) {
+      var map = { accueil:'sAccueil', imc:'sImc', programme:'sProgramme', coachs:'sCoachs', planning:'sPlanning' };
+      sections.forEach(function(s) {
+        document.getElementById(s).style.display = 'none';
+      });
+      document.getElementById(map[name]).style.display = '';
+    }
+
+    function styleR2() {
+      ['lH2','lF2'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.toggle('selected', el.querySelector('input').checked);
+      });
+    }
+
+    function calcIMCDash() {
+      var sexe   = document.getElementById('rH2').checked ? 'homme'
+                 : document.getElementById('rF2').checked ? 'femme' : null;
+      if (!sexe)    { alert('Veuillez sélectionner votre sexe'); return; }
+      var taille = parseFloat(document.getElementById('d_taille').value);
+      var poids  = parseFloat(document.getElementById('d_poids').value);
+      if (!taille || taille <= 0) { alert('Taille invalide'); return; }
+      if (!poids  || poids  <= 0) { alert('Poids invalide');  return; }
+
+      var tm  = taille / 100;
+      var imc = poids / (tm * tm);
+      var pct = sexe === 'homme' ? 1.2*imc + 0.23*25 - 16.2 : 1.2*imc + 0.23*25 - 5.4;
+      if (pct < 0) pct = 0;
+      var mg  = +(((pct/100)*poids).toFixed(1));
+      var msg = +(poids - mg).toFixed(1);
+      var mm  = +(msg * 0.75).toFixed(1);
+      var me  = sexe === 'homme'
+              ? +(-2.097 + 0.1069*taille + 0.2466*poids).toFixed(1)
+              : +(-2.097 + 0.1069*taille + 0.1835*poids).toFixed(1);
+
+      var label = imc < 18.5 ? '⚠️ Insuffisance pondérale'
+                : imc < 25  ? '✅ Poids normal'
+                : imc < 30  ? '⚠️ Surpoids'
+                :              '🔴 Obésité';
+
+      document.getElementById('imcVal').textContent = imc.toFixed(2) + ' — ' + label;
+      document.getElementById('v_mg').textContent  = mg + ' kg';
+      document.getElementById('v_mm').textContent  = mm + ' kg';
+      document.getElementById('v_me').textContent  = me + ' kg';
+      document.getElementById('imcResult').style.display = '';
+
+      setTimeout(function() {
+        document.getElementById('b_mg').style.width = Math.min((mg/poids)*100, 100) + '%';
+        document.getElementById('b_mm').style.width = Math.min((mm/poids)*100, 100) + '%';
+        document.getElementById('b_me').style.width = Math.min((me/poids)*100, 100) + '%';
+      }, 100);
+    }
+
+    function deconnexion() {
+      // En PHP, on détruirait la session. Ici on redirige simplement.
+      return true;
+    }
+  </script>
+</body>
+</html>
